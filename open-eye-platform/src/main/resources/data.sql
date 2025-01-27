@@ -12,5 +12,5 @@ VALUES
     (1, 1, 'This is a post by John Doe.'),
     (2, 2, 'This is a post by Jane Smith.'),
     (3, 3, 'This is a post by Alex Brown.');
-    (4, 4, 'This is a post by Alexa Brownie.');
+
 
