@@ -1,12 +1,9 @@
-package com.open_platform.open_eye_platform.Users;
+package com.urooba.springbootlearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.open_platform.open_eye_platform.Posts.Post;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.*;
-import jdk.jfr.Name;
 
 import java.time.LocalDateTime;
 import java.util.List;

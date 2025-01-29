@@ -1,4 +1,4 @@
-package com.open_platform.open_eye_platform.Users;
+package com.urooba.springbootlearning.entity;
 
 public enum UserRole {
     //creating a user ; 1. Admin , 2. User

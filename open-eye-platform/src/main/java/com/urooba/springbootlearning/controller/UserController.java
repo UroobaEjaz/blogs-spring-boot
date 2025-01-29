@@ -1,9 +1,11 @@
-package com.open_platform.open_eye_platform;
+package com.urooba.springbootlearning.controller;
 
 
-import com.open_platform.open_eye_platform.Posts.Post;
-import com.open_platform.open_eye_platform.Users.User;
-import jakarta.transaction.Transactional;
+import com.urooba.springbootlearning.entity.Post;
+import com.urooba.springbootlearning.entity.User;
+import com.urooba.springbootlearning.exception.UserNotFoundException;
+import com.urooba.springbootlearning.repository.PostRepository;
+import com.urooba.springbootlearning.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -19,48 +21,46 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn;
 
 @RestController
-public class user_services {
+public class UserController {
 
     // initializing the variables first and then make the constructor out of it
 
-   private User_repository userRepository;
+    private UserRepository userRepository;
+    private PostRepository postRepository;
 
-   private Post_repository postRepository;
-
-    public user_services(User_repository userRepository ,  Post_repository postRepository) {
+    public UserController(UserRepository userRepository, PostRepository postRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
 
     //get all the users
     @GetMapping("/openEye/allUsers")
-    public List<User> getAllUsers(){
-       return userRepository.findAll();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 
     @GetMapping("openEye/{id}/viewUser")
-    public EntityModel<User> getUserById(@PathVariable  final int id){
+    public EntityModel<User> getUserById(@PathVariable final int id) {
 
-            // Fetch user by ID
-            Optional<User> optionalUser = userRepository.findById(id);
+        // Fetch user by ID
+        Optional<User> optionalUser = userRepository.findById(id);
 
-            // If user not found, throw exception
-            if (optionalUser.isEmpty()) {
-                throw new UserNotFoundException("id " + id);
-            }
+        // If user not found, throw exception
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("id " + id);
+        }
 
-            // Get the actual user object
-            User user = optionalUser.get();
+        // Get the actual user object
+        User user = optionalUser.get();
 
         // Wrap user in EntityModel
-            EntityModel<User> entityModel = EntityModel.of(user);
+        EntityModel<User> entityModel = EntityModel.of(user);
         // Create EntityModel and add HATEOAS link
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getAllUsers());
-            entityModel.add(link.withRel("allUser"));
+        entityModel.add(link.withRel("allUser"));
 
-            return entityModel;
-
+        return entityModel;
     }
 
 
@@ -108,23 +108,23 @@ public class user_services {
     }
 
     @DeleteMapping("/openEye/delete/{id}")
-    public void deleteUser(@PathVariable int id){
-       userRepository.deleteById(id);
+    public void deleteUser(@PathVariable int id) {
+        userRepository.deleteById(id);
     }
 
 
     //---------------------------------POSTS REQUESTS-------------------------//
 
     @GetMapping("/openEye/allPosts")
-    public List<Post> getAllPosts(){
+    public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
 
     @GetMapping("openEye/{id}/viewPost")
-    public EntityModel<Post> getPost(@PathVariable  final int id){
+    public EntityModel<Post> getPost(@PathVariable final int id) {
 
         // Fetch post by ID
-      Optional <Post> optionalPost =  postRepository.findById(id);
+        Optional<Post> optionalPost = postRepository.findById(id);
 
 
         // If user not found, throw exception
@@ -146,17 +146,17 @@ public class user_services {
     }
 
     @PostMapping("/openEye/createPost/{id}")
-    public ResponseEntity<Post> createPostForUser (@PathVariable final int id, @Valid @RequestBody Post post){
+    public ResponseEntity<Post> createPostForUser(@PathVariable final int id, @Valid @RequestBody Post post) {
         // first find the user by id
-      Optional < User>  user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
-      if(user.isEmpty()){
-          throw new UserNotFoundException(" id" + id);
-      }
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(" id" + id);
+        }
 
-      post.setUser(user.get());
+        post.setUser(user.get());
 
-      Post postSaved = postRepository.save(post);
+        Post postSaved = postRepository.save(post);
 
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -169,10 +169,10 @@ public class user_services {
     }
 
     @PutMapping("/openEye/editPost/{id}")
-    public ResponseEntity<Post> editPost (@PathVariable final int id,@Valid @RequestBody Post editedPost){
+    public ResponseEntity<Post> editPost(@PathVariable final int id, @Valid @RequestBody Post editedPost) {
         Optional<Post> prevPost = postRepository.findById(id);
 
-        if(prevPost.isEmpty()){
+        if (prevPost.isEmpty()) {
             throw new UserNotFoundException("not exist" + id);
         }
 
@@ -189,18 +189,10 @@ public class user_services {
     }
 
     @DeleteMapping("/openEye/deletePost/{id}")
-    public void deletePost(@PathVariable final int id){
+    public void deletePost(@PathVariable final int id) {
         postRepository.deleteById(id);
 
     }
-
-
-
-
-
-
-
-
 
 
 }

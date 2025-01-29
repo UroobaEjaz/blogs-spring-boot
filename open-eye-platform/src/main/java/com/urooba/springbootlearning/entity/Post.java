@@ -1,9 +1,8 @@
-package com.open_platform.open_eye_platform.Posts;
+package com.urooba.springbootlearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.open_platform.open_eye_platform.Users.User;
+import com.urooba.springbootlearning.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
@@ -21,7 +20,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.EAGER)   //Lazy loading means that the related entity is not immediately fetched from the database when the owning entity is loaded.
     @JsonIgnore
     @JoinColumn(name="user_id")
-    private User User;
+    private com.urooba.springbootlearning.entity.User User;
 
 
 

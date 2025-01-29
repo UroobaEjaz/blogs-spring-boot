@@ -1,4 +1,4 @@
-package com.open_platform.open_eye_platform;
+package com.urooba.springbootlearning.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {
