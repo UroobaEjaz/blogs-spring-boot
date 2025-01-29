@@ -11,8 +11,9 @@ public class Post {
     //for the post, generate the id, description, User_id,
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int post_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
+    @SequenceGenerator(name = "post_seq", sequenceName = "post_seq", allocationSize = 1)
+    private Long post_id;
 
     @Size(min=10)
     private String description;
@@ -27,7 +28,7 @@ public class Post {
 
 
 
-    public Post(int post_id, String description) {
+    public Post(Long post_id, String description) {
         this.post_id=post_id;
         this.description = description;
 
@@ -37,11 +38,11 @@ public class Post {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return post_id;
     }
 
-    public void setId(int post_id) {
+    public void setId(Long post_id) {
         this.post_id=post_id;
     }
 

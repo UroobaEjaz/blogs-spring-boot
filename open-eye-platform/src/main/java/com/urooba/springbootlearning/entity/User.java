@@ -15,8 +15,8 @@ public class User {
     //1. id, name, birthdate, post
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int user_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long user_id;
 
 
 
@@ -34,7 +34,7 @@ public class User {
     private LocalDateTime birthdate;
 
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "User" , cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Post> post;
 
@@ -59,7 +59,7 @@ public class User {
 //constructor
 
 
-    public User(int user_id, String firstName, String lastName,String userName, LocalDateTime birthdate,String email) {
+    public User(Long user_id, String firstName, String lastName,String userName, LocalDateTime birthdate,String email) {
         this.user_id = user_id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -72,11 +72,11 @@ public class User {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return user_id;
     }
 
-    public void setId(int user_id) {
+    public void setId(Long user_id) {
         this.user_id = user_id;
     }
 
