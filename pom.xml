@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.open-platform</groupId>
-	<artifactId>open-eye-platform</artifactId>
+	<artifactId>blogs-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>open-eye-platform</name>
-	<description>open-eye-platform</description>
+	<name>blogs-spring-boot</name>
+	<description>blogs-spring-boot</description>
 	<url/>
 	<licenses>
 		<license/>

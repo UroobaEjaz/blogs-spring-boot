@@ -19,6 +19,6 @@ public class PublicController {
 
     @GetMapping("/ContactUs")
     public String contactUs() {
-        return "open-eye-platform@gmail.com";
+        return "blogs-spring-boot@gmail.com";
     }
 }
