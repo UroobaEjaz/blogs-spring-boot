@@ -6,12 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="open-eye-platform" />
+        <module name="blogs-spring-boot" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="open-eye-platform" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="blogs-spring-boot" options="-parameters" />
       <module name="open-eye-platform" options="-parameters" />
     </option>
   </component>
