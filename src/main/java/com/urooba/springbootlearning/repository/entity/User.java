@@ -1,4 +1,4 @@
-package com.urooba.springbootlearning.entity;
+package com.urooba.springbootlearning.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

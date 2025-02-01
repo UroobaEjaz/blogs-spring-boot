@@ -15,7 +15,6 @@ public class PublicController {
     @GetMapping("/websiteFeatures")
     public String websiteFeatures() {
         return "It has nice features";
-
     }
 
     @GetMapping("/ContactUs")

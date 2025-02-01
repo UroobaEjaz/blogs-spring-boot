@@ -1,6 +1,6 @@
 package com.urooba.springbootlearning.service;
 
-import com.urooba.springbootlearning.entity.User;
+import com.urooba.springbootlearning.repository.entity.User;
 import com.urooba.springbootlearning.exception.UserNotFoundException;
 import com.urooba.springbootlearning.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

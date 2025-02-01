@@ -1,14 +1,8 @@
 package com.urooba.springbootlearning.controller;
 
-
-import com.urooba.springbootlearning.entity.Post;
-import com.urooba.springbootlearning.entity.User;
-import com.urooba.springbootlearning.exception.UserNotFoundException;
-import com.urooba.springbootlearning.repository.PostRepository;
-import com.urooba.springbootlearning.repository.UserRepository;
+import com.urooba.springbootlearning.repository.entity.User;
 import com.urooba.springbootlearning.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn;
@@ -25,23 +18,16 @@ import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.met
 @RestController
 public class UserController {
 
-    // initializing the variables first and then make the constructor out of it
+    private final UserService userService;
 
-
-    private UserService userService;
-
-
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    //get all the users
     @GetMapping("/allUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-
 
     @GetMapping("/{id}/viewUser")
     public EntityModel<User> getUserById(@PathVariable final int id) {
@@ -55,7 +41,6 @@ public class UserController {
 
         return entityModel;
     }
-
 
     @PostMapping("/addUser")
     public ResponseEntity<User> createUser(@Valid @RequestBody User newUser) {

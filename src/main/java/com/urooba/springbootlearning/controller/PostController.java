@@ -1,10 +1,7 @@
 package com.urooba.springbootlearning.controller;
 
-import com.urooba.springbootlearning.entity.Post;
-import com.urooba.springbootlearning.entity.User;
-import com.urooba.springbootlearning.exception.UserNotFoundException;
+import com.urooba.springbootlearning.repository.entity.Post;
 import com.urooba.springbootlearning.service.PostService;
-import com.urooba.springbootlearning.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -15,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn;
@@ -23,14 +19,11 @@ import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.met
 @RestController
 public class PostController {
 
- private PostService postService;
+    private final PostService postService;
 
-
- // generating the constructor; constructor injection
     @Autowired
     public PostController(PostService postService) {
         this.postService = postService;
-
     }
 
     @GetMapping("/allPosts")
@@ -40,7 +33,7 @@ public class PostController {
 
     @GetMapping("{id}/viewPost")
     public EntityModel<Post> getPost(@PathVariable final int id) {
-        Post post = postService.getPost(id);
+        Post post = postService.getPostById(id);
         // Wrap user in EntityModel
         EntityModel<Post> entityModel = EntityModel.of(post);
         // Create EntityModel and add HATEOAS link
@@ -48,14 +41,12 @@ public class PostController {
         entityModel.add(link.withRel("allPost"));
 
         return entityModel;
-
     }
 
     @PostMapping("/createPost/{id}")
-    public ResponseEntity<Post> createPostForUser(@PathVariable final int id, @Valid @RequestBody Post post) {
-
+    public ResponseEntity<Post> createPostForUser(@PathVariable final int id,
+                                                  @Valid @RequestBody Post post) {
         Post newPost = postService.createPostForUser(id, post);
-
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -63,24 +54,18 @@ public class PostController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
-
     }
 
     @PutMapping("/editPost/{id}")
     public ResponseEntity<Post> editPost(@PathVariable final int id, @Valid @RequestBody Post editedPost) {
-       Post updatedPost = postService.updatingPost(id,editedPost);
-
+        Post updatedPost = postService.updatePost(id, editedPost);
         return ResponseEntity.ok(updatedPost);
-
     }
 
     @DeleteMapping("deletePost/{id}")
     public void deletePost(@PathVariable final int id) {
-      postService.deletePost(id);
-
+        postService.deletePost(id);
     }
-
-
 }
 
 
