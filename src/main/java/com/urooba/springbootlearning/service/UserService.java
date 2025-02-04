@@ -49,9 +49,9 @@ public class UserService {
             // Update user fields (You can set only the fields you want to update)
             existingUser.setFirstName(updatedUser.getFirstName());
             existingUser.setLastName(updatedUser.getLastName());
-            existingUser.setUserName(updatedUser.getUserName());
+            existingUser.setUsername(updatedUser.getUsername());
             existingUser.setBirthdate(updatedUser.getBirthdate());
-            existingUser.setUserRole(updatedUser.getUserRole());
+            existingUser.setRoles(updatedUser.getRoles());
             existingUser.setPassword(updatedUser.getPassword());
             return userRepository.save(existingUser);
         }

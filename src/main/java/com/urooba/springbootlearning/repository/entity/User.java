@@ -4,13 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "users_info")
 
-public class User {
+public class User implements UserDetails {
     //Assigning User
     //1. id, name, birthdate, post
 
@@ -27,8 +31,8 @@ public class User {
     private String lastName;
 
     @Size(min=5 )
-    private String userName;
-
+    @Column(name = "user_name")
+    private String username;
 
     @Past
     private LocalDateTime birthdate;
@@ -39,8 +43,12 @@ public class User {
     private List<Post> post;
 
     //Add Enum, that contains Either user and admin variables
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+//    @Enumerated(EnumType.STRING)
+//    private UserRole userRole;
+
+    @NotNull
+    private String roles;
+
 
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
@@ -59,13 +67,14 @@ public class User {
 //constructor
 
 
-    public User(Long user_id, String firstName, String lastName,String userName, LocalDateTime birthdate,String email) {
+    public User(Long user_id, String firstName, String lastName,String username, LocalDateTime birthdate,String email, String roles) {
         this.user_id = user_id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
+        this.username = username;
         this.birthdate = birthdate;
         this.email = email;
+        this.roles = roles;
     }
 
     protected User() {
@@ -97,12 +106,32 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername(){
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public LocalDateTime getBirthdate() {
@@ -121,12 +150,13 @@ public class User {
         this.post = post;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+
+    public String getRoles() {
+        return roles;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public String getEmail() {
@@ -137,12 +167,18 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> roles);
+    }
+
+    public  String getPassword(){
+        return password;
     }
 
     @Override
@@ -151,10 +187,10 @@ public class User {
                 "user_id=" + user_id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", birthdate=" + birthdate +
                 ", post=" + post +
-                ", userRole=" + userRole +
+                ", roles=" + roles +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

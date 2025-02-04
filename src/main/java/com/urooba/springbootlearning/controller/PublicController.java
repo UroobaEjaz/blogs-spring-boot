@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PublicController {
 
+    @GetMapping("/hello")
+    public String helloWorld(){
+        return "hello";
+    }
+
     @GetMapping("/welcome")
     public String welcomePage() {
         return "Welcome to the Open Eye Platform";
@@ -21,4 +26,12 @@ public class PublicController {
     public String contactUs() {
         return "blogs-spring-boot@gmail.com";
     }
+
+    @GetMapping("/logout")
+    public String logOut(){ return "Log out";}
+
+    @GetMapping("/login")
+    public String login(){  return "log in page"; }
+
+
 }
