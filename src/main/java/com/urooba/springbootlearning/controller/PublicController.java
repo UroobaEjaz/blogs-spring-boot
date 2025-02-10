@@ -27,10 +27,10 @@ public class PublicController {
         return "blogs-spring-boot@gmail.com";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/log0ut")
     public String logOut(){ return "Log out";}
 
-    @GetMapping("/login")
+    @GetMapping("/logIn")
     public String login(){  return "log in page"; }
 
 

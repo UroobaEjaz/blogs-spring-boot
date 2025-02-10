@@ -9,10 +9,10 @@
 INSERT INTO users_info ( birthdate, email, first_name, last_name, password, user_name, roles)
 VALUES
     ( '1990-01-01 00:00:00', 'admin@example.com', 'Admin', 'User',
-     '$2a$10$TnCJlRq/JM7rTjc1FUpX9Ofyz/Hp5MOhQ38HOUZpgcR7jAOz6Ww2W', 'adminuser', 'ROLE_ADMIN'),
+     '$2a$10$TnCJlRq/JM7rTjc1FUpX9Ofyz/Hp5MOhQ38HOUZpgcR7jAOz6Ww2W', 'adminuser', 'ADMIN'),
 
     ( '1992-05-15 00:00:00', 'user@example.com', 'Regular', 'User',
-     '$2a$10$AftCm2wGfWo2boAz3zRbQOwGzXPVwvLgq1mXskXY9J2/d9pDPTqFG', 'regularuser', 'ROLE_USER');
+     '$2a$10$AftCm2wGfWo2boAz3zRbQOwGzXPVwvLgq1mXskXY9J2/d9pDPTqFG', 'regularuser', 'USER');
 
 -- adminuser → Password: admin123
 -- regularuser → Password: user123

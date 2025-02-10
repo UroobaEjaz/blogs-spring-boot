@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,8 +31,9 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+
     @GetMapping("/{id}/viewUser")
-    public EntityModel<User> getUserById(@PathVariable final int id) {
+        public EntityModel<User> getUserById(@PathVariable final int id) {
         User user = userService.getUserById(id);
 
         // Wrap user in EntityModel
@@ -58,7 +61,9 @@ public class UserController {
         return ResponseEntity.created(location).body(savedUser);
     }
 
+
     @PutMapping("/updateUser/{id}")
+
     public ResponseEntity<User> updateUser(@PathVariable int id, @Valid @RequestBody User updatedUser) {
         User editedUser = userService.updateUser(id, updatedUser);
         // Return 200 OK with the updated user object
@@ -66,6 +71,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
+
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
     }

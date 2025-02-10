@@ -4,6 +4,7 @@ import com.urooba.springbootlearning.repository.entity.User;
 import com.urooba.springbootlearning.exception.UserNotFoundException;
 import com.urooba.springbootlearning.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // get info for all the users from repo
@@ -35,10 +37,11 @@ public class UserService {
     }
 
     //adding the user
-    public User createUser(User user){
-     return userRepository.save(user);
+    public User createUser(User user) {
+        // Encode the password before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
-
     //updating the user
     public User updateUser(int id, User updatedUser){
         Optional<User> optionalUser = userRepository.findById(id);

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "users_info")
 
@@ -38,7 +39,7 @@ public class User implements UserDetails {
     private LocalDateTime birthdate;
 
 
-    @OneToMany(mappedBy = "User" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "User" ,  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Post> post;
 
@@ -47,6 +48,7 @@ public class User implements UserDetails {
 //    private UserRole userRole;
 
     @NotNull
+    @Column
     private String roles;
 
 
@@ -77,7 +79,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    protected User() {
+    public User() {
 
     }
 
@@ -174,7 +176,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> roles);
+        return List.of(roles.split(",")).stream()
+                .map(role -> (GrantedAuthority) () ->  role.trim().toUpperCase()) // Ensuring correct ROLE_ prefix
+                .collect(Collectors.toList());
     }
 
     public  String getPassword(){
