@@ -1,4 +1,5 @@
 package com.urooba.springbootlearning.security;
+import com.urooba.springbootlearning.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +22,14 @@ import java.util.List;
 public class SecurityConfig {
 
 
-    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     private UserDetailsService userDetailsService;
 
-
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,12 +37,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session management
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login","/register","/user")
+                        .requestMatchers("/login","/user")
                         .permitAll() // Public endpoints
-                        .requestMatchers("/{id}/viewUser")
+                        .anyRequest()
                         .authenticated()// Secure all other endpoints
                 )
-//                .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class) // Add JWT filter
+                .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class) // Add JWT filter
                 .build();
     }
 

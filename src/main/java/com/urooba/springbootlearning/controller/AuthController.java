@@ -64,7 +64,7 @@ public class AuthController {
             String token = jwtUtilClass.generateToken(userDetails);
 
             // Return the generated token
-            return ResponseEntity.ok("Bearer " + token);
+            return ResponseEntity.ok("Bearer: " + token);
 
 
     }
