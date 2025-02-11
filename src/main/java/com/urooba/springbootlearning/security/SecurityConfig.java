@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
 
@@ -37,7 +39,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session management
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login","/user")
+                        .requestMatchers("/forAdminOnly").hasRole("ADMIN")
+                        .requestMatchers("/forUserOnly").hasRole("USER")
+                        .requestMatchers("/forBoth").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/login","/signup")
                         .permitAll() // Public endpoints
                         .anyRequest()
                         .authenticated()// Secure all other endpoints

@@ -43,9 +43,10 @@ public class AuthController {
         this.jwtUtilClass = jwtUtilClass;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/signup")
     public String registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(user.getRoles());
         userRepository.save(user);
         return "User registered successfully!";
     }

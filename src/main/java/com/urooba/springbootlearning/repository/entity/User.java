@@ -177,7 +177,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(roles.split(",")).stream()
-                .map(role -> (GrantedAuthority) () ->  role.trim().toUpperCase()) // Ensuring correct ROLE_ prefix
+                .map(role -> (GrantedAuthority) () -> "ROLE_" + role.trim().toUpperCase()) // Ensuring correct ROLE_ prefix
                 .collect(Collectors.toList());
     }
 
